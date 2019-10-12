@@ -1,0 +1,9 @@
+version: "2"
+services:
+  node:
+    image: papango/puppeteer
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    working_dir: /home
+    command: /bin/bash spotify.sh

@@ -1,0 +1,67 @@
+stages:
+- name: env var replacement spotify
+  steps:
+  - runScriptConfig:
+      image: golang:latest
+      shellScript: |-
+        cp ./docker/deployment.yaml ./docker/spotify.yaml
+        sed -i -- "s|{{APP_NAME}}|$APP_NAME|g" ./docker/spotify.yaml
+        sed -i -- "s|{{APP_SCRIPT}}|$APP_SCRIPT|g" ./docker/spotify.yaml
+        sed -i -- "s|{{APP_BIN}}|$APP_BIN|g" ./docker/spotify.yaml
+        export REPLICAS=$(curl -s https://mymusic.tsenagasy.com/getaccounts.php?site=spotify)
+        sed -i -- "s|{{REPLICAS}}|$REPLICAS|g" ./docker/spotify.yaml
+        cat ./docker/spotify.yaml
+    env:
+      APP_BIN: /bin/bash
+      APP_NAME: spotify
+      APP_SCRIPT: spotify.sh
+- name: env var replacement napster
+  steps:
+  - runScriptConfig:
+      image: golang:latest
+      shellScript: |-
+        cp ./docker/deployment.yaml ./docker/napster.yaml
+        sed -i -- "s|{{APP_NAME}}|$APP_NAME|g" ./docker/napster.yaml
+        sed -i -- "s|{{APP_SCRIPT}}|$APP_SCRIPT|g" ./docker/napster.yaml
+        sed -i -- "s|{{APP_BIN}}|$APP_BIN|g" ./docker/napster.yaml
+        export REPLICAS=$(curl -s https://mymusic.tsenagasy.com/getaccounts.php?site=napster)
+        sed -i -- "s|{{REPLICAS}}|$REPLICAS|g" ./docker/napster.yaml
+        cat ./docker/napster.yaml
+    env:
+      APP_BIN: node
+      APP_NAME: napster
+      APP_SCRIPT: player.js
+- name: env var replacement qobuz
+  steps:
+  - runScriptConfig:
+      image: golang:latest
+      shellScript: |-
+        cp ./docker/deployment.yaml ./docker/qobuz.yaml
+        sed -i -- "s|{{APP_NAME}}|$APP_NAME|g" ./docker/qobuz.yaml
+        sed -i -- "s|{{APP_SCRIPT}}|$APP_SCRIPT|g" ./docker/qobuz.yaml
+        sed -i -- "s|{{APP_BIN}}|$APP_BIN|g" ./docker/qobuz.yaml
+        export REPLICAS=$(curl -s https://mymusic.tsenagasy.com/getaccounts.php?site=qobuz)
+        sed -i -- "s|{{REPLICAS}}|$REPLICAS|g" ./docker/qobuz.yaml
+        cat ./docker/qobuz.yaml
+    env:
+      APP_BIN: node
+      APP_NAME: qobuz
+      APP_SCRIPT: player.js
+- name: build
+  steps:
+  - publishImageConfig:
+      dockerfilePath: ./docker/Dockerfile
+      buildContext: .
+      tag: papango/puppeteer:${CICD_GIT_COMMIT}
+      pushRemote: true
+      registry: index.docker.io
+- name: deploy
+  steps:
+  - applyYamlConfig:
+      path: ./docker/spotify.yaml
+  - applyYamlConfig:
+      path: ./docker/napster.yaml
+  - applyYamlConfig:
+      path: ./docker/qobuz.yaml
+timeout: 60
+notification: {}

@@ -1,0 +1,57 @@
+apiVersion: apps/v1beta2
+kind: StatefulSet
+metadata:
+  labels:
+    app: {{APP_NAME}}
+  name: {{APP_NAME}}
+  namespace: default
+spec:
+  podManagementPolicy: OrderedReady
+  replicas: {{REPLICAS}}
+  selector:
+    matchLabels:
+      app: {{APP_NAME}}
+  serviceName: {{APP_NAME}}
+  template:
+    metadata:
+      labels:
+        app: {{APP_NAME}}
+    spec:
+      containers:
+      - args:
+        - {{APP_BIN}}
+        - {{APP_SCRIPT}}
+        env:
+        - name: SITE
+          value: {{APP_NAME}}
+        image: papango/puppeteer:${CICD_GIT_COMMIT}
+        imagePullPolicy: Always
+        name: {{APP_NAME}}
+        livenessProbe:
+          failureThreshold: 3
+          initialDelaySeconds: 30
+          periodSeconds: 5
+          successThreshold: 1
+          tcpSocket:
+            port: 9999
+          timeoutSeconds: 10
+        readinessProbe:
+          failureThreshold: 1
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          successThreshold: 1
+          tcpSocket:
+            port: 8080
+          timeoutSeconds: 10
+        resources: {}
+        stdin: true
+        tty: true
+      dnsPolicy: ClusterFirst
+      imagePullSecrets:
+      - name: dh
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 5
+  updateStrategy:
+    type: RollingUpdate

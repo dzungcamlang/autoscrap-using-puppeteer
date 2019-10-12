@@ -1,0 +1,33 @@
+{
+  "name": "tidal",
+  "version": "1.0.0",
+  "description": "Run a web player with nodejs Puppeteer",
+  "main": "amazon.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eramahatra/puppeteer.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/eramahatra/puppeteer/issues"
+  },
+  "homepage": "https://github.com/eramahatra/puppeteer#readme",
+  "dependencies": {
+    "http-proxy": "^1.18.0",
+    "puppeteer": "^1.20.0",
+    "puppeteer-extra": "^2.1.3",
+    "puppeteer-extra-plugin-anonymize-ua": "^2.1.4",
+    "puppeteer-extra-plugin-flash": "^2.1.3",
+    "puppeteer-extra-plugin-recaptcha": "^3.0.4",
+    "puppeteer-extra-plugin-stealth": "^2.2.2",
+    "puppeteer-extra-plugin-user-data-dir": "^2.1.2",
+    "puppeteer-extra-plugin-user-preferences": "^2.1.2",
+    "random-useragent": "^0.3.1",
+    "sync-request": "^6.1.0"
+  }
+}

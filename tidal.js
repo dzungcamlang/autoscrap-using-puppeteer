@@ -1,0 +1,20 @@
+module.exports = {
+    LOGIN_PAGE: 'https://listen.tidal.com/login',
+    PRELOGIN_BUTTON : 'button[data-test="no-user--login"]',
+    LOGGED_IN_CHECK: '',
+    INPUT_USERNAME: 'input#email',
+    INPUT_PASSWORD: 'input#pass',
+    PLAYLIST: 'https://listen.tidal.com/playlist/2c324aca-238b-45b5-85f0-2c7fb7d613ed',
+    PLAY_BUTTON: 'div[data-test="header-controls"] > button:nth-child(2)',
+    FACEBOOK_BUTTON: 'button[class="position-relative fullwidth login-facebook btn-client-facebook"]',
+    LOGIN_BUTTON: '',
+    SKIP_BUTTON: '',
+    PAUSE_BUTTON: '',
+    RANDOM_BUTTON: 'div[class="meta--2gVhk"] button:nth-child(2)',
+    RANDOM_BUTTON_ACTIVATED: '',
+    LOOP_BUTTON: '',
+    LOOP_BUTTON_ACTIVATED: '',
+    PRESS_ENTER: true,
+    HEADLESS: false,
+    RECAPTCHA: true
+};
